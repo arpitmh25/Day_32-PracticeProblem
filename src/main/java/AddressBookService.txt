@@ -1,0 +1,235 @@
+C:\Users\prati>mysql -u root -p
+Enter password: ************
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 32
+Server version: 8.0.27 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2021, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+mysql> DROP DATABASE AddressBookServices;
+Query OK, 1 row affected (0.04 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| AddressBookService |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+5 rows in set (0.00 sec)
+
+mysql> DROP DATABASE AddressBookService;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+4 rows in set (0.00 sec)
+
+mysql> create database AddressBookService;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| AddressBookService |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+5 rows in set (0.00 sec)
+
+mysql> use AddressBookService;
+Database changed
+mysql> create table Address Book;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Book' at line 1
+mysql> create table addresBook;
+ERROR 4028 (HY000): A table must have at least one visible column.
+mysql> create table AddressBook (FirstName varchar(150) , lastName varchar(150) , address varchar(150), city varchar(30) , state varchar(30) , zipCode int , phoneNumber bigint , email varchar(50) );  
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> insert into addressbook value ('akash','patil','dabki road', 'akola','maharashtra',444005,8888888888,'akashpatil101@gmail.com');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> update addressbook set address = 'dabki road' where FirstName = 'akash';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> delete from addressbook where FirstName = 'akash';
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from addressbook where state = 'maharashtra' and city = 'akola';
+Empty set (0.00 sec)
+
+mysql> insert into addressbook value ('akash','patil','dabki road', 'akola','maharashtra',444005,8888888888,'akashpatil101@gmail.com');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select count(city) from addressbook where state = 'maharashtra' and city = 'akola';
++-------------+
+| count(city) |
++-------------+
+|           1 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> select * from addressbook where city = 'akola' order by FirstName;
++-----------+----------+------------+---------+---------------+---------+-------------+------------------------------+
+| FirstName | lastName | address    | city    | state         | zipCode | phoneNumber | email                        |
++-----------+----------+------------+---------+---------------+---------+-------------+------------------------------+
+| akash  | patil  | dabki road | akola | maharashtra |  444005 |  8888888888 | akashpatil101@gmail.com |
++-----------+----------+------------+---------+---------------+---------+-------------+------------------------------+
+1 row in set (0.00 sec)
+
+mysql> insert into addressbook value ('aditya','chotte','dabki road', 'akola','maharashtra',444005,8888888888,'akashpatil101@gmail.com');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select FirstName from addressbook ORDER BY FirstName;
++-----------+
+| FirstName |
++-----------+
+| akash  |
+|aditya   |
++-----------+
+2 rows in set (0.00 sec)
+
+mysql> select FirstName from addressbook ORDER BY FirstName desc;
++-----------+
+| FirstName |
++-----------+
+|aditya   |
+| akash  |
++-----------+
+2 rows in set (0.00 sec)
+
+mysql> select FirstName from addressbook ORDER BY FirstName desc where city = 'akola';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'where city = 'akola'' at line 1
+mysql> select FirstName from addressbook where city = 'akola' ORDER BY FirstName desc;
++-----------+
+| FirstName |
++-----------+
+|aditya   |
+| akash  |
++-----------+
+2 rows in set (0.00 sec)
+
+mysql> select * FirstName from addressbook where city = 'akola' ORDER BY FirstName desc;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'FirstName from addressbook where city = 'akola' ORDER BY FirstName desc' at line 1
+mysql> select * from addressbook where city = 'akola' ORDER BY FirstName desc;
++-----------+----------+------------+---------+---------------+---------+-------------+------------------------------+
+| FirstName | lastName | address    | city    | state         | zipCode | phoneNumber | email                        |
++-----------+----------+------------+---------+---------------+---------+-------------+------------------------------+
+|aditya   | chotte   | dabki road | akola | maharashtra |  444005 |  8888888888 | akashpatil101@gmail.com |
+| akash  | patil  | dabki road | akola | maharashtra |  444005 |  8888888888 | akashpatil101@gmail.com |
++-----------+----------+------------+---------+---------------+---------+-------------+------------------------------+
+2 rows in set (0.01 sec)
+
+mysql> alter table addressbook add type varchar(50) after lastName;
+Query OK, 0 rows affected (0.05 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from addressbook where city = 'akola' ORDER BY FirstName ;
++-----------+----------+------+------------+---------+---------------+---------+-------------+------------------------------+
+| FirstName | lastName | type | address    | city    | state         | zipCode | phoneNumber | email                        |
++-----------+----------+------+------------+---------+---------------+---------+-------------+------------------------------+
+| akash  | patil  | NULL | dabki road | akola | maharashtra |  444005 |  8888888888 | akashpatil101@gmail.com |
+|aditya   | chotte   | NULL | dabki road | akola | maharashtra |  444005 |  8888888888 | akashpatil101@gmail.com |
++-----------+----------+------+------------+---------+---------------+---------+-------------+------------------------------+
+2 rows in set (0.00 sec)
+
+mysql> insert into addressbook value ('aditya','family','chotte','dabki road', 'akola','maharashtra',444005,8888888888,'akashpatil101@gmail.com');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from addressbook where city = 'akola' ORDER BY FirstName desc;
++-----------+----------+--------+------------+---------+---------------+---------+-------------+------------------------------+
+| FirstName | lastName | type   | address    | city    | state         | zipCode | phoneNumber | email                        |
++-----------+----------+--------+------------+---------+---------------+---------+-------------+------------------------------+
+|aditya   | chotte   | NULL   | dabki road | akola | maharashtra |  444005 |  8888888888 | akashpatil101@gmail.com |
+|aditya   | family   | chotte | dabki road | akola | maharashtra |  444005 |  8888888888 | akashpatil101@gmail.com |
+| akash  | patil  | NULL   | dabki road | akola | maharashtra |  444005 |  8888888888 | akashpatil101@gmail.com |
++-----------+----------+--------+------------+---------+---------------+---------+-------------+------------------------------+
+3 rows in set (0.00 sec)
+
+mysql> DELETE FROM addressbook where type = 'chotte';
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from addressbook where city = 'akola' ORDER BY FirstName desc;
++-----------+----------+------+------------+---------+---------------+---------+-------------+------------------------------+
+| FirstName | lastName | type | address    | city    | state         | zipCode | phoneNumber | email                        |
++-----------+----------+------+------------+---------+---------------+---------+-------------+------------------------------+
+|aditya   | chotte   | NULL | dabki road | akola | maharashtra |  444005 |  8888888888 | akashpatil101@gmail.com |
+| akash  | patil  | NULL | dabki road | akola | maharashtra |  444005 |  8888888888 | akashpatil101@gmail.com |
++-----------+----------+------+------------+---------+---------------+---------+-------------+------------------------------+
+2 rows in set (0.00 sec)
+
+mysql> insert into addressbook value ('aditya','chotte','family','dabki road', 'akola','maharashtra',444005,8888888888,'akashpatil101@gmail.com');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into addressbook value ('aditya','chotte','friends','dabki road', 'akola','maharashtra',444005,8888888888,'akashpatil101@gmail.com');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from addressbook where city = 'akola' ORDER BY FirstName desc;
++-----------+----------+---------+------------+---------+---------------+---------+-------------+------------------------------+
+| FirstName | lastName | type    | address    | city    | state         | zipCode | phoneNumber | email                        |
++-----------+----------+---------+------------+---------+---------------+---------+-------------+------------------------------+
+|aditya   | chotte   | NULL    | dabki road | akola | maharashtra |  444005 |  8888888888 | akashpatil101@gmail.com |
+|aditya   | chotte   | family  | dabki road | akola | maharashtra |  444005 |  8888888888 | akashpatil101@gmail.com |
+|aditya   | chotte   | friends | dabki road | akola | maharashtra |  444005 |  8888888888 | akashpatil101@gmail.com |
+| akash  | patil  | NULL    | dabki road | akola | maharashtra |  444005 |  8888888888 | akashpatil101@gmail.com |
++-----------+----------+---------+------------+---------+---------------+---------+-------------+------------------------------+
+4 rows in set (0.00 sec)
+
+mysql> insert into addressbook value ('akash','patil','family','dabki road', 'akola','maharashtra',444005,8888888888,'akashpatil101@gmail.com');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into addressbook value ('akash','patil','friends','dabki road', 'akola','maharashtra',444005,8888888888,'akashpatil101@gmail.com');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from addressbook where city = 'akola' ORDER BY FirstName ;
++-----------+----------+---------+------------+---------+---------------+---------+-------------+------------------------------+
+| FirstName | lastName | type    | address    | city    | state         | zipCode | phoneNumber | email                        |
++-----------+----------+---------+------------+---------+---------------+---------+-------------+------------------------------+
+| akash  | patil  | NULL    | dabki road | akola | maharashtra |  444005 |  8888888888 | akashpatil101@gmail.com |
+| akash  | patil  | family  | dabki road | akola | maharashtra |  444005 |  8888888888 | akashpatil101@gmail.com |
+| akash  | patil  | friends | dabki road | akola | maharashtra |  444005 |  8888888888 | akashpatil101@gmail.com |
+|aditya   | chotte   | NULL    | dabki road | akola | maharashtra |  444005 |  8888888888 | akashpatil101@gmail.com |
+|aditya   | chotte   | family  | dabki road | akola | maharashtra |  444005 |  8888888888 | akashpatil101@gmail.com |
+|aditya   | chotte   | friends | dabki road | akola | maharashtra |  444005 |  8888888888 | akashpatil101@gmail.com |
++-----------+----------+---------+------------+---------+---------------+---------+-------------+------------------------------+
+6 rows in set (0.00 sec)
+
+mysql> SELECT * FROM addressbook;
++-----------+----------+---------+------------+---------+---------------+---------+-------------+------------------------------+
+| FirstName | lastName | type    | address    | city    | state         | zipCode | phoneNumber | email                        |
++-----------+----------+---------+------------+---------+---------------+---------+-------------+------------------------------+
+| akash  | patil  | NULL    | dabki road | akola | maharashtra |  444005 |  8888888888 | akashpatil101@gmail.com |
+|aditya   | chotte   | NULL    | dabki road | akola | maharashtra |  444005 |  8888888888 | akashpatil101@gmail.com |
+|aditya   | chotte   | family  | dabki road | akola | maharashtra |  444005 |  8888888888 | akashpatil101@gmail.com |
+|aditya   | chotte   | friends | dabki road | akola | maharashtra |  444005 |  8888888888 | akashpatil101@gmail.com |
+| akash  | patil  | family  | dabki road | akola | maharashtra |  444005 |  8888888888 | akashpatil101@gmail.com |
+| akash  | patil  | friends | dabki road | akola | maharashtra |  444005 |  8888888888 | akashpatil101@gmail.com |
++-----------+----------+---------+------------+---------+---------------+---------+-------------+------------------------------+
+6 rows in set (0.00 sec)
+
+mysql> select count(FirstName) from addressbook where type = 'Family' ;
++------------------+
+| count(FirstName) |
++------------------+
+|                2 |
++------------------+
+1 row in set (0.00 sec)
